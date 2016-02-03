@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------*\
-|  Copyright (C) 2014 PayPal                                                                                          |
+|  Copyright (C) 2014-2016 PayPal                                                                                     |
 |                                                                                                                     |
 |  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance     |
 |  with the License.                                                                                                  |
@@ -53,7 +53,7 @@ public class SauceConfigChangeServlet extends RegistryBasedServlet {
     /**
      * Resource path to the sauce config html file
      */
-    public static final String RESOURCE_PAGE_FILE = "/pages/updateSauceConfigPage.html";
+    public static final String RESOURCE_PAGE_FILE = "/com/paypal/selion/html/updateSauceConfigPage.html";
 
     private static final long serialVersionUID = 1L;
 
