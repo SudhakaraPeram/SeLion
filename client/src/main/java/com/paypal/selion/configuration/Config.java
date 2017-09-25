@@ -19,11 +19,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ISuite;
@@ -40,13 +42,13 @@ import com.paypal.selion.platform.html.support.events.ElementEventListener;
  * TestNG formatted testng-suite.xml file. The testng-suite.xml file is used to override the default settings, so only
  * the data you want to modify from default values should be specified in the suite configuration file. Any data not
  * found in the testng-suite.xml file will use the built-in defaults. <br>
- * 
+ *
  * Note that some configuration properties are global-only in scope. Any value set for these applies to all suite tests
  * executed (possibly in parallel). Properties that must be specified for global use are specified below with
  * "(GLOBAL)". These properties cannot be used in SeLionLocal configuration instances. The others can be specified for
  * Global or Local (test) scope.
- * 
- * 
+ *
+ *
  * <pre>
  * &lt;!-- If parameter is empty string or omitted, please see defaults --&gt;
  * 
@@ -63,7 +65,7 @@ import com.paypal.selion.platform.html.support.events.ElementEventListener;
  * &lt;!-- optional, turns automatic screen shots for click handlers on/off, defaults to true (GLOBAL) --&gt;
  * &lt;parameter name="autoScreenShot" value="true" /&gt;
  * &lt;!-- optional, used when runLocally is true, defaults to 'default' --&gt;
- * &lt;parameter name="profileName" value="SeleniumProfile" /&gt;     
+ * &lt;parameter name="profileName" value="SeleniumProfile" /&gt;
  * 
  * &lt;!-- SELION FILES LOCATION --&gt;
  * 
@@ -72,19 +74,19 @@ import com.paypal.selion.platform.html.support.events.ElementEventListener;
  * &lt;!-- optional, default to ${selionFiles.basedir}/selionLogs (GLOBAL) --&gt;
  * &lt;parameter name="workDir"  value="" /&gt;
  * </pre>
- * 
+ *
  * <strong>All other configuration settings can be set in a similar fashion.</strong><br>
- * 
+ *
  * <br>
  * Also, system properties and/or environment variables can also be used to configure SeLion. The values used should
  * always start with "SELION_" and end with the value you would like the set. The variable equals the
  * {@link ConfigProperty} variable name. So, for instance, to set the execution_timeout to "180000", the following
  * system property or environment variable should be set prior to initializing SeLion:
- * 
+ *
  * <pre>
  * SELION_EXECUTION_TIMEOUT = 180000
  * </pre>
- * 
+ *
  * <h4>The order of initialization for Configuration values is</h4>
  * <ol>
  * <li>System properties (Highest Precedence)
@@ -110,13 +112,13 @@ public final class Config {
 
     /**
      * Parses suite parameters and generates SeLion Config object
-     * 
+     *
      * @param suite
      *            list of parameters from configuration file within &lt;suite&gt;&lt;/suite&gt; tag
      */
     public synchronized static void initConfig(ISuite suite) {
         SeLionLogger.getLogger().entering(suite);
-        Map<ConfigProperty, String> initialValues = new HashMap<ConfigProperty, String>();
+        Map<ConfigProperty, String> initialValues = new HashMap<>();
         for (ConfigProperty prop : ConfigProperty.values()) {
             String paramValue = suite.getParameter(prop.getName());
             // empty values may be valid for some properties
@@ -131,14 +133,14 @@ public final class Config {
 
     /**
      * Parses configuration file and extracts values for test environment
-     * 
+     *
      * @param context
      *            list of parameters includes values within &lt;suite&gt;&lt;/suite&gt; and &lt;test&gt;&lt;/test&gt;
      *            tags
      */
     public synchronized static void initConfig(ITestContext context) {
         SeLionLogger.getLogger().entering(context);
-        Map<ConfigProperty, String> initialValues = new HashMap<ConfigProperty, String>();
+        Map<ConfigProperty, String> initialValues = new HashMap<>();
         Map<String, String> testParams = context.getCurrentXmlTest().getLocalParameters();
         if (!testParams.isEmpty()) {
             for (ConfigProperty prop : ConfigProperty.values()) {
@@ -160,7 +162,7 @@ public final class Config {
      */
     public synchronized static void initConfig() {
         SeLionLogger.getLogger().entering();
-        Map<ConfigProperty, String> initialValues = new HashMap<ConfigProperty, String>();
+        Map<ConfigProperty, String> initialValues = new HashMap<>();
 
         initConfig(initialValues);
 
@@ -219,7 +221,7 @@ public final class Config {
     /**
      * Initializes the configuration, reloading all data while adding the supplied <code>initialValues</code> to the
      * configuration.
-     * 
+     *
      * @param initialValues
      *            The initial set of values used to configure SeLion
      */
@@ -259,67 +261,111 @@ public final class Config {
 
     /**
      * Returns a configuration property <b>String</b> value based off the {@link ConfigProperty}
-     * 
+     *
      * @param configProperty
      *            The configuration property value to return
-     * @return The configuration property <b>String</b> value
+     * @return The configuration property <b>String</b> value.
      */
     public static String getConfigProperty(ConfigProperty configProperty) {
-        checkArgument(configProperty != null, "Config property cannot be null");
-        return Config.getConfig().getString(configProperty.getName());
+        return getConfigProperty(configProperty.getName());
     }
 
     /**
-     * Returns a configuration property <b>String</b> value based off the {@link ConfigProperty}
-     * 
+     * Returns a configuration property <b>List</b> value based off the {@link ConfigProperty}
+     *
      * @param configProperty
-     *            String Property Name
-     * @return The configuration property <b>String</b> values
+     *            The configuration property value to return
+     * @return The configuration property <b>List</b> value or an empty <b>List</b>.
      */
-    public static String getConfigProperty(String configProperty) {
-        checkArgument(configProperty != null, "Config property cannot be null");
-        return Config.getConfig().getString(configProperty);
+    public static List<Object> getListConfigProperty(ConfigProperty configProperty) {
+        return getListConfigProperty(configProperty.getName());
     }
 
     /**
      * Returns a configuration property <b>int</b> value based off the {@link ConfigProperty}
-     * 
+     *
      * @param configProperty
      *            The configuration property value to return
      * @return The configuration property <b>int</b> value
      */
     public static int getIntConfigProperty(ConfigProperty configProperty) {
-        checkArgument(configProperty != null, "Config property cannot be null");
-        return Config.getConfig().getInt(configProperty.getName());
+        return getIntConfigProperty(configProperty.getName());
     }
 
     /**
      * Returns a configuration property <b>boolean</b> value based off the {@link ConfigProperty}
-     * 
+     *
      * @param configProperty
      *            The configuration property value to return
      * @return The configuration property <b>boolean</b> value
      */
     public static boolean getBoolConfigProperty(ConfigProperty configProperty) {
+        return getBoolConfigProperty(configProperty.getName());
+    }
+
+    /**
+     * Returns a configuration property <b>String</b> value based off the {@link ConfigProperty}
+     *
+     * @param configProperty
+     *            String Property Name
+     * @return The configuration property <b>String</b> value.
+     */
+    public static String getConfigProperty(String configProperty) {
         checkArgument(configProperty != null, "Config property cannot be null");
-        return Config.getConfig().getBoolean(configProperty.getName());
+        return getConfig().getString(configProperty);
+    }
+
+    /**
+     * Returns a configuration property <b>List</b> value based off the {@link ConfigProperty}
+     *
+     * @param configProperty
+     *            String Property Name
+     * @return The configuration property <b>List</b> value or an empty <b>List</b>.
+     */
+    public static List<Object> getListConfigProperty(String configProperty) {
+        checkArgument(configProperty != null, "Config property cannot be null");
+        return getConfig().getList(configProperty);
+    }
+
+    /**
+     * Returns a configuration property <b>int</b> value based off the {@link ConfigProperty}
+     *
+     * @param configProperty
+     *            String Property Name
+     * @return The configuration property <b>int</b> value
+     */
+    public static int getIntConfigProperty(String configProperty) {
+        checkArgument(configProperty != null, "Config property cannot be null");
+        return getConfig().getInt(configProperty);
+    }
+
+    /**
+     * Returns a configuration property <b>boolean</b> value based off the {@link ConfigProperty}
+     *
+     * @param configProperty
+     *            String Property Name
+     * @return The configuration property <b>boolean</b> value
+     */
+    public static boolean getBoolConfigProperty(String configProperty) {
+        checkArgument(configProperty != null, "Config property cannot be null");
+        return getConfig().getBoolean(configProperty);
     }
 
     /**
      * Checks if property exists in the configuration
-     * 
+     *
      * @param propertyName
      *            String Property Name
      * @return <b>true</b> or <b>false</b>
      */
     public static boolean checkPropertyExists(String propertyName) {
         checkArgument(propertyName != null, "Property name cannot be null");
-        return Config.getConfig().containsKey(propertyName);
+        return getConfig().containsKey(propertyName);
     }
 
     /**
      * Sets a SeLion configuration value. This is useful when you want to override or set a setting.
-     * 
+     *
      * @param configProperty
      *            The configuration element to set
      * @param configPropertyValue
@@ -327,10 +373,10 @@ public final class Config {
      * @throws IllegalArgumentException
      *             If problems occur during the set
      */
-    public static synchronized void setConfigProperty(ConfigProperty configProperty, String configPropertyValue) {
+    public static synchronized void setConfigProperty(ConfigProperty configProperty, Object configPropertyValue) {
         checkArgument(configProperty != null, "Config property cannot be null.");
         checkArgument(configPropertyValue != null, "Config property value cannot be null.");
-        Config.getConfig().setProperty(configProperty.getName(), configPropertyValue);
+        getConfig().setProperty(configProperty.getName(), configPropertyValue);
     }
 
     /**
@@ -345,13 +391,14 @@ public final class Config {
 
         /**
          * Selenium host might be localhost or another location where a Selenium server is running. Used when
-         * {@link ConfigProperty#SELENIUM_RUN_LOCALLY} is <b>false</b><br>
+         * {@link ConfigProperty#SELENIUM_RUN_LOCALLY} is <b>false</b>.<br>
          * Default is set to <b>""</b>
          */
         SELENIUM_HOST("seleniumhost", "", true),
 
         /**
-         * Selenium port, any port where Selenium is running.<br>
+         * Selenium port, any port where Selenium is running. Used when {@link ConfigProperty#SELENIUM_RUN_LOCALLY} is
+         * <b>false</b.><br>
          * Default is set to <b>4444</b>
          */
         SELENIUM_PORT("seleniumport", "4444", true),
@@ -403,6 +450,20 @@ public final class Config {
         SELENIUM_EDGEDRIVER_PATH("edgeDriverPath", "", true),
 
         /**
+         * Set this parameter to <code>false</code> to disable the use of Gecko/marionette driver (PKA wires) with
+         * Firefox. This is used for local as well as remote grid executions using Firefox browser. Default value is the
+         * value of <code>-Dwebdriver.firefox.marionette</code> or <code>true</code>
+         */
+        SELENIUM_USE_GECKODRIVER("useGeckoDriver", System.getProperty(
+                FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true"), true),
+
+        /**
+         * The path to the Gecko/Marionette driver executable file on the local machine. This parameter is taken into
+         * consideration for local runs only with the Firefox browser.
+         */
+        SELENIUM_GECKODRIVER_PATH("geckoDriverPath", "", true),
+
+        /**
          * Use this parameter to set the user agent for firefox when working with Mobile version. This parameter should
          * be set in conjunction with the parameter {@link ConfigProperty#BROWSER}
          */
@@ -419,8 +480,8 @@ public final class Config {
         SELENIUM_PROXY_PORT("proxyServerPort", "", true),
 
         /**
-         * Use this parameter to indicate if your remote runs are to be run against the sauce lab grid or against your 
-         * own grid. This flag is required when running against the Sauce lab grid because we need to disable fetching 
+         * Use this parameter to indicate if your remote runs are to be run against the sauce lab grid or against your
+         * own grid. This flag is required when running against the Sauce lab grid because we need to disable fetching
          * of the WebDriver node IP and Port details.
          */
         SELENIUM_USE_SAUCELAB_GRID("useSauceLabGrid", "false", true),
@@ -432,12 +493,12 @@ public final class Config {
         MOBILE_NODE_TYPE("mobileNodeType", "", false),
 
         /**
-         * Use this parameter to provide SeLion with a custom capabilities provider. The value for this parameter
-         * would be the fully qualified class name which is a sub-class of {@link DefaultCapabilitiesBuilder}.
-         * If more than one custom capabilities providers are required, please separate their fully qualified class 
-         * names with commas.
+         * Use this parameter to provide SeLion with a custom capabilities provider. The value for this parameter would
+         * be the fully qualified class name which is a sub-class of {@link DefaultCapabilitiesBuilder}. If more than
+         * one custom capabilities providers are required, please separate their fully qualified class names with
+         * commas.
          */
-        SELENIUM_CUSTOM_CAPABILITIES_PROVIDER("customCapabilities", "", true),
+        SELENIUM_CUSTOM_CAPABILITIES_PROVIDER("customCapabilities", "", false),
 
         /**
          * Use this parameter to provide SeLion with a custom listener which can be plugged into {@link RemoteWebDriver}
@@ -466,7 +527,7 @@ public final class Config {
         /**
          * This parameter represents the name of the app that is to be spawned. Specifying the name of the mobile app
          * should suffice.
-         * 
+         *
          * <b>Note:</b> Use of this parameter is not recommended for test suites which test different mobile
          * applications or different versions of the same mobile applications.
          */
@@ -492,6 +553,26 @@ public final class Config {
         MOBILE_APP_LOCALE("mobileAppLocale", "en_US", false),
 
         /**
+         * This parameter represents the main activity of Android mobile appplication. By default it is always empty.
+         */
+        ANDROID_APP_MAIN_ACTIVITY("androidAppMainActivity", "", false),
+
+        /**
+         * This parameter represents the package of Android mobile application. By default it is always empty.
+         */
+        ANDROID_APP_PACKAGE("androidAppPackage", "", false),
+
+        /**
+         * This parameter represents device.
+         */
+        MOBILE_DEVICE("mobileDevice", "", false),
+
+        /**
+         * This parameter represents the device type.
+         */
+        MOBILE_DEVICE_TYPE("mobileDeviceType", "", false),
+
+        /**
          * Use this parameter to provide SeLion with a custom element listener that implements
          * {@link ElementEventListener}. SeLion will invoke the custom implementation when the relevant events happen.
          * If more than one custom listeners is needed, please separate the fully qualified class names with commas.
@@ -512,6 +593,11 @@ public final class Config {
          * This parameter is used to pass SauceLabs parent tunnel user id
          */
         SAUCELAB_TUNNEL_USER_ID("sauceTunnelUserId", "", true),
+
+        /**
+         * This parameter is used to pass SauceLabs tunnel identifier
+         */
+        SAUCELAB_TUNNEL_ID("sauceTunnelId", "", true),
 
         /**
          * Directory with page asset files to read info about GUI controls from.<br>
@@ -539,7 +625,7 @@ public final class Config {
         /**
          * Turn this flag ON to see GUI actions such as loading a URL, click/setting text etc., being logged into the
          * test reports that get generated by SeLion.
-         * 
+         *
          */
         ENABLE_GUI_LOGGING("enableGUILogging", "false", true),
 
@@ -677,7 +763,7 @@ public final class Config {
 
         /**
          * Returns the name of this configuration property
-         * 
+         *
          * @return The name of this configuration property
          */
         public String getName() {
@@ -686,7 +772,7 @@ public final class Config {
 
         /**
          * Returns the default value for this configuration property
-         * 
+         *
          * @return The default <b>String</b> value for this configuration property
          */
         public String getDefaultValue() {
@@ -695,7 +781,7 @@ public final class Config {
 
         /**
          * Find the Enum for the specified property name.
-         * 
+         *
          * @return The ConfigProperty Enum for the specified name if found or null if not found.
          */
         public static ConfigProperty find(String name) {
@@ -709,13 +795,11 @@ public final class Config {
 
         /**
          * Answer if the property is a global only property (i.e only Suite scope param / System / Env Property)
-         * 
+         *
          * @return true if the property is only supported as a global property.
          */
         public boolean isGlobalScopeOnly() {
             return this.isGlobalScopeOnly;
         }
-
     }
-
 }

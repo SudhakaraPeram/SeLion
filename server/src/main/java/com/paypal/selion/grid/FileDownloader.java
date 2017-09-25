@@ -49,7 +49,7 @@ final class FileDownloader {
     private static List<String> files = new ArrayList<String>();
     private static long lastModifiedTime;
     private static final List<String> SUPPORTED_TYPES = Arrays.asList(ArchiveStreamFactory.ZIP, ArchiveStreamFactory.TAR,
-            ArchiveStreamFactory.JAR, "bz2", "msi");
+            ArchiveStreamFactory.JAR, "bz2", "msi", "gz");
     private static final File DOWNLOAD_FILE = new File(SeLionGridConstants.DOWNLOAD_JSON_FILE);
 
     private FileDownloader() {
@@ -215,7 +215,8 @@ final class FileDownloader {
             if (result.endsWith(".msi")) {
                 String extractedExeFile = FileExtractor.extractMsi(result);
                 files.add(extractedExeFile);
-            } else if (!result.endsWith(".jar") && !result.endsWith(".msi")) {
+            }
+            if (!result.endsWith(".jar") && !result.endsWith(".msi")) {
                 List<String> extractedFileList = FileExtractor.extractArchive(result);
                 files.addAll(extractedFileList);
             }
@@ -265,7 +266,7 @@ final class FileDownloader {
                 return filename;
             }
         }
-        LOGGER.info("Downloading from " + url + " with checksum " + checksum + "[" + algorithm + "]");
+        LOGGER.fine("Downloading from " + url + " with checksum " + checksum + "[" + algorithm + "]");
 
         try {
             FileUtils.copyURLToFile(new URL(url), new File(filename), 10000, 60000);
@@ -318,7 +319,7 @@ final class FileDownloader {
         String fileType = url.substring(url.lastIndexOf('.') + 1);
         if (!SUPPORTED_TYPES.contains(fileType)) {
             throw new UnsupportedOperationException("Unsupported file format: " + fileType
-                    + ". Supported file types are .zip, .tar, .msi and bz2");
+                    + ". Supported file types are " +  StringUtils.join(SUPPORTED_TYPES, ","));
         }
     }
 

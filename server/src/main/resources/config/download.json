@@ -3,56 +3,72 @@
     "name": "selenium",
     "roles": [ "node", "hub", "standalone", "sauce" ],
     "any": {
-      "url": "https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar",
-      "checksum": "b2784fc67c149d3c13c83d2108104689"
+      "url": "https://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar",
+      "checksum": "3dd4cad1d343f9d1cb1302ef1b3cec98"
     }
   },
   {
     "name": "chromedriver",
     "roles": [ "node", "standalone" ],
     "windows": {
-      "url": "https://chromedriver.storage.googleapis.com/2.20/chromedriver_win32.zip",
-      "checksum": "028ee452b8e23890ec5ec6b0717fd295"
+      "url": "https://chromedriver.storage.googleapis.com/2.31/chromedriver_win32.zip",
+      "checksum": "6a6e8cd245742f20d61b7dac743844fb"
     },
     "linux": {
-      "url": "https://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zip",
-      "checksum": "245858cc984bd946df6a1e6719c8e6f5"
+      "url": "https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip",
+      "checksum": "e95c696646102e38d8543b89b7eaa4a5"
     },
     "mac": {
-      "url": "https://chromedriver.storage.googleapis.com/2.20/chromedriver_mac32.zip",
-      "checksum": "749d4be0a317e92fd3aecaa022385439"
+      "url": "https://chromedriver.storage.googleapis.com/2.31/chromedriver_mac64.zip",
+      "checksum": "b77c9c71b52302fcfe6b40dcd143f1d0"
+    }
+  },
+  {
+    "name": "geckodriver",
+    "roles": [ "node", "standalone" ],
+    "windows": {
+      "url": "https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-win64.zip",
+      "checksum": "22431740413b7149c5901d4da8dcd129"
+    },
+    "linux": {
+      "url": "https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz",
+      "checksum": "4ccb56fb3700005c9f9188f84152f21a"
+    },
+    "mac": {
+      "url": "https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-macos.tar.gz",
+      "checksum": "79cf3050cc942cdff6edbc7605d05ef2"
     }
   },
   {
     "name": "phantomjs",
     "roles": [ "node", "standalone" ],
     "windows": {
-      "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-windows.zip",
-      "checksum": "4531bd64df101a689ac7ac7f3e11bb7e77af8eff"
+      "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-windows.zip",
+      "checksum": "4104470d43ddf2a195e8869deef0aa69"
     },
     "linux": {
-      "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2",
-      "checksum": "4ea7aa79e45fbc487a63ef4788a18ef7"
+      "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2",
+      "checksum": "1c947d57fce2f21ce0b43fe2ed7cd361"
     },
     "mac": {
-      "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-macosx.zip",
-      "checksum": "fb850d56c033dd6e1142953904f62614"
+      "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip",
+      "checksum": "b0c038bd139b9ecaad8fd321070c1651"
     }
   },
   {
     "name": "iedriver",
     "roles": [ "node", "standalone" ],
     "windows": {
-      "url": "http://selenium-release.storage.googleapis.com/2.48/IEDriverServer_Win32_2.48.0.zip",
-      "checksum": "f7b8b07393e31d05ab360a06f51b482a"
+      "url": "http://selenium-release.storage.googleapis.com/3.5/IEDriverServer_Win32_3.5.1.zip",
+      "checksum": "9681d826a14c657ae82b4266e045a24e"
     }
   },
   {
     "name": "edgedriver",
     "roles": [ "node", "standalone" ],
     "windows": {
-      "url": "https://download.microsoft.com/download/1/4/1/14156DA0-D40F-460A-B14D-1B264CA081A5/MicrosoftWebDriver.msi",
-      "checksum": "32722bf59f09b937ea23915ea980c4b8"
+      "url": "https://download.microsoft.com/download/8/D/0/8D0D08CF-790D-4586-B726-C6469A9ED49C/MicrosoftWebDriver.msi",
+      "checksum": "524f701858a4c4ac82e4b0e496ba971ac64a5662"
     }
   },
   {

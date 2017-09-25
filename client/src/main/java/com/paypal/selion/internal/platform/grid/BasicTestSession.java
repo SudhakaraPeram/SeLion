@@ -53,7 +53,6 @@ public class BasicTestSession extends AbstractTestSession {
         logger.entering();
         Grid.getThreadLocalWebDriver().set(null);
         Grid.getThreadLocalTestSession().set(null);
-        Grid.getThreadLocalException().set(null);
         setStarted(false);
         logger.exiting();
     }

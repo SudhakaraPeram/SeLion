@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------*\
-|  Copyright (C) 2014-2015 PayPal                                                                                     |
+|  Copyright (C) 2014-2016 PayPal                                                                                     |
 |                                                                                                                     |
 |  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance     |
 |  with the License.                                                                                                  |
@@ -39,7 +39,7 @@ import com.paypal.selion.pojos.SeLionGridConstants;
  */
 public final class ConfigParser {
     private static final SeLionGridLogger LOGGER = SeLionGridLogger.getLogger(ConfigParser.class);
-    private static ConfigParser parser = new ConfigParser();
+    private static final ConfigParser parser = new ConfigParser();
     private static JsonObject configuration;
     private static String configFile;
 
@@ -47,7 +47,7 @@ public final class ConfigParser {
      * @return A {@link ConfigParser} object that can be used to retrieve values from the Configuration object as
      *         represented by the JSON file passed via the JVM argument <b>SeLionConfig</b>
      */
-    public static ConfigParser parse() {
+    public static synchronized ConfigParser parse() {
         LOGGER.entering();
         if (configuration == null) {
             try {
@@ -56,17 +56,18 @@ public final class ConfigParser {
                 throw new ConfigParserException(e);
             }
         }
+
         LOGGER.exiting(parser.toString());
         return parser;
     }
 
     /**
      * Set the config file
-     * 
+     *
      * @param file
      *            the SeLion Grid config file to use
      */
-    public static ConfigParser setConfigFile(String file) {
+    public static synchronized ConfigParser setConfigFile(String file) {
         LOGGER.entering(file);
         if (configuration == null) {
             configFile = file;
@@ -138,6 +139,36 @@ public final class ConfigParser {
     /**
      * @param key
      *            The key for which the value is to be read for.
+     * @return a Boolean that represents the value for the key.
+     */
+    public boolean getBoolean(String key) {
+        LOGGER.entering(key);
+        try {
+            return configuration.get(key).getAsBoolean();
+        } catch (JsonSyntaxException | NullPointerException e) { // NOSONAR
+            throw new ConfigParserException(e);
+        }
+    }
+
+    /**
+     * @param key
+     *            The key for which the value is to be read for.
+     * @param defaultVal
+     *            default value to use if the key does not exist or has an malformed value.
+     * @return a Boolean that represents the value for the key or the defaultVal if no such key exists.
+     */
+    public boolean getBoolean(String key, boolean defaultVal) {
+        LOGGER.entering(new Object[] { key, defaultVal });
+        try {
+            return configuration.get(key).getAsBoolean();
+        } catch (JsonSyntaxException | NullPointerException e) { // NOSONAR
+            return defaultVal;
+        }
+    }
+
+    /**
+     * @param key
+     *            The key for which the value is to be read for.
      * @return a String that represents the value for the key.
      */
     public String getString(String key) {
@@ -196,7 +227,7 @@ public final class ConfigParser {
     }
 
     private ConfigParser() {
-        //Intentionally left blank
+        // Intentionally left blank
     }
 
     private static void readConfigFileContents() throws IOException {
@@ -244,7 +275,7 @@ public final class ConfigParser {
 
     /**
      * A custom exception that represents all problems arising out of parsing configurations via {@link ConfigParser}
-     * 
+     *
      */
     public static class ConfigParserException extends RuntimeException {
         private static final long serialVersionUID = 6165338826147933550L;

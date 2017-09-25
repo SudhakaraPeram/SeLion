@@ -15,22 +15,23 @@
 
 package com.paypal.selion.platform.mobile.android;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.paypal.selion.logger.SeLionLogger;
+import com.paypal.selion.platform.mobile.elements.MobileElement;
 import com.paypal.selion.platform.grid.Grid;
 import com.paypal.selion.platform.html.WebPage;
 import com.paypal.selion.platform.html.support.HtmlElementUtils;
 import com.paypal.selion.platform.utilities.WebDriverWaitUtils;
 import com.paypal.test.utilities.logging.SimpleLogger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * <code>UiObject</code> implements {@link UserinterfaceObject} and forms the base class of all Android UI automation
  * elements.
  */
-public class UiObject implements UserinterfaceObject {
+public class UiObject implements UserinterfaceObject, MobileElement {
 
     private static final SimpleLogger logger = SeLionLogger.getLogger();
 
@@ -45,7 +46,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public void clearText() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.clearText(webElement);
         logger.exiting();
@@ -54,20 +55,20 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public void click(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.click(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
     }
 
     @Override
     public void clickBottomRight(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.clickBottomRight(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
 
     }
@@ -75,10 +76,10 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public void clickTopLeft(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.clickTopLeft(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
 
     }
@@ -86,7 +87,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public String getText() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         String text = driver.getText(webElement);
         logger.exiting(text);
@@ -96,7 +97,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isCheckable() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isCheckable(webElement);
         logger.exiting(result);
@@ -106,7 +107,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isChecked() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isChecked(webElement);
         logger.exiting(result);
@@ -116,7 +117,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isClickable() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isClickable(webElement);
         logger.exiting(result);
@@ -126,7 +127,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isEnabled() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isEnabled(webElement);
         logger.exiting(result);
@@ -136,7 +137,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isFocusable() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isFocusable(webElement);
         logger.exiting(result);
@@ -146,7 +147,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isFocused() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isFocused(webElement);
         logger.exiting(result);
@@ -156,7 +157,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isLongClickable() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isLongClickable(webElement);
         logger.exiting(result);
@@ -166,7 +167,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isScrollable() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isScrollable(webElement);
         logger.exiting(result);
@@ -176,7 +177,7 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public boolean isSelected() {
         logger.entering();
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         boolean result = driver.isSelected(webElement);
         logger.exiting(result);
@@ -186,37 +187,37 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public void longClick(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.longClick(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
     }
 
     @Override
     public void longClickBottomRight(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.longClickBottomRight(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
     }
 
     @Override
     public void longClickTopLeft(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.longClickTopLeft(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
     }
 
     @Override
     public void setText(String text) {
         logger.entering(text);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.setText(webElement, text);
         logger.exiting();
@@ -225,20 +226,20 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public void swipeLeft(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.swipeLeft(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
     }
 
     @Override
     public void swipeRight(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.swipeRight(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
 
     }
@@ -246,26 +247,46 @@ public class UiObject implements UserinterfaceObject {
     @Override
     public void swipeUp(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.swipeUp(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
     }
 
     @Override
     public void swipeDown(Object... expected) {
         logger.entering(expected);
-        getBridgeDriver();
+        initBridgeDriver();
         WebElement webElement = driver.findElement(HtmlElementUtils.resolveByType(locator));
         driver.swipeDown(webElement);
-            waitFor(expected);
+        waitFor(expected);
         logger.exiting();
+    }
+
+    @Override
+    public WebElement findElement(String locator) {
+        logger.entering(locator);
+        By by = HtmlElementUtils.resolveByType(locator);
+        initBridgeDriver();
+        WebElement webElement = driver.findElement(by);
+        logger.exiting(webElement);
+        return webElement;
+    }
+
+    @Override
+    public void tap(Object... expected) {
+        click(expected);
+    }
+
+    @Override
+    public String getValue() {
+        return getText();
     }
 
     /**
      * Returns the locator.
-     * 
+     *
      * @return Locator of this {@link UiObject}
      */
     public String getLocator() {
@@ -296,9 +317,8 @@ public class UiObject implements UserinterfaceObject {
         }
         logger.exiting();
     }
-    
-    private SeLionAndroidBridgeDriver getBridgeDriver(){
+
+    protected void initBridgeDriver() {
         driver = SeLionAndroidBridgeDriver.class.cast(Grid.driver());
-        return driver;
     }
 }
