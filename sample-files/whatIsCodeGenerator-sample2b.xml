@@ -1,0 +1,13 @@
+<plugin>
+  <groupId>com.paypal.selion</groupId>
+  <artifactId>SeLion-Code-Generator</artifactId>
+  <version>1.2.0</version>
+  <executions>
+    <execution>
+      <phase>generate-test-sources</phase>
+      <goals>
+        <goal>generate-test</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>

@@ -114,9 +114,7 @@
         <li><a href="#selion-grid" data-src="selionGrid.html">Introducing SeLion's Enhanced Grid</a></li>
         <li><a href="#selion-config" data-src="selionconfigparameters.html">Configuration parameters</a></li>
         <li><a href="#additional-selenium-caps" data-src="additionalseleniumcapabilities.html">Specifying additional Selenium capabilities</a></li>
-        <li><a href="#pageyaml" data-src="yamlpage.html">SeLion PageYAML for web flow</a></li>
-        <li><a href="#ios-native-page-yaml" data-src="iosNativePageYaml.html">SeLion PageYAML for iOS apps</a></li>
-        <li><a href="#android-native-page-yaml" data-src="androidNativePageYaml.html">SeLion PageYAML for Android apps</a></li>
+        <li><a href="#pageyaml" data-src="yamlpage.html">SeLion PageYAML</a></li>
         <li><a href="#containers" data-src="container.html">PageYAML and Container elements</a></li>
         <li><a href="#selion-data-provider" data-src="seLionDataProvider.html">SeLion DataProvider</a></li>
         <li><a href="#yaml-data-provider" data-src="yamlDataProvider.html">YAML DataProvider</a></li>
@@ -128,18 +126,18 @@
         <li><a href="#capture-selion-element-events" data-src="capture-selion-element-events.html">Working with the SeLion Element Event Listener</a> </li>
         <li><a href="#webdriver-session-handler" data-src="webdriversessionhandler.html">Understanding WebDriver Session Handler</a></li>
         <li><a href="#webdriver-sessions-sharing" data-src="webdriversessionsharing.html">Sharing WebDriver Sessions across tests</a></li>
-        <li><a href="#ios-native-page-app-automation" data-src="iosNativePageAppAutomation.html">iOS app automation with Page Objects</a></li>
-        <li><a href="#android-native-page-app-automation" data-src="androidNativePageAppAutomation.html">Android app automation with Page Objects</a></li>
+        <li><a href="#mobile-native-page-app-automation" data-src="mobileNativePageAppAutomation.html">Mobile app automation with Page Objects</a></li>
         <li><a href="#fix-plugin-execution" data-src="fixPluginExecution.html">Fixing plugin execution errors in Eclipse</a></li>
         <li><a href="#buildingSelion" data-src="buildingSelion.html">Building the code</a></li>
       </ul>
     </li>
     <li><label class="tree-toggler nav-header">Java Docs</label>
       <ul class="nav nav-list tree">
-        <li><a href="java-docs/1.0.0/client-apis/index.html">Client</a></li>
-        <li><a href="java-docs/1.0.0/codegen-apis/index.html">Code Generator</a></li>
-        <li><a href="java-docs/1.0.0/dataproviders-apis/index.html">DataProviders</a></li>
-        <li><a href="java-docs/1.0.0/server-apis/index.html">Server</a></li>
+        <li><a href="java-docs/1.2.0/client-apis/index.html">Client</a></li>
+        <li><a href="java-docs/1.2.0/codegen-apis/index.html">Code Generator</a></li>
+        <li><a href="java-docs/1.2.0/dataproviders-apis/index.html">DataProviders</a></li>
+        <li><a href="java-docs/1.2.0/common-apis/index.html">Common</a></li>
+        <li><a href="java-docs/1.2.0/server-apis/index.html">Server</a></li>
       </ul>
     </li>
   </ul>
@@ -159,11 +157,19 @@
 </script>
 <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
 <script src="../js/jquery.min.js"></script>
-<script src="../js/docs.min.js"></script>
 <!-- SeLion specific JavaScript -- Requires jQuery -->
 <script src="../js/selion-docs.js"></script>
 <script src="../js/bootstrap.min.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-85173745-1', 'auto', {'allowAnchor':true});
+  ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+
+</script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../js/ie10-viewport-bug-workaround-min.js"></script>
 </body>

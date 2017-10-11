@@ -36,27 +36,27 @@
         </tr>
         <tr>
           <td>autoScreenShot</td>
-          <td>SELION_AUTO_SCREEN_SHOT</td>
+          <td><span>SELION_AUTO_SCREEN_SHOT</span></td>
           <td>true</td>
           <td class="warning">GLOBAL</td>
           <td>Automatically take screen shots.</td>
         </tr>
         <tr>
           <td>seleniumhost</td>
-          <td><span>SELION_</span>SELENIUM_HOST</td>
+          <td><span>SELION_SELENIUM_HOST</span></td>
           <td colspan="1">IP Address of the machine wherein a Grid is running.</td>
           <td colspan="1" class="warning"><span>GLOBAL</span></td>
           <td>
-            <p>Selenium host might be localhost or other where server is running.</p>
+            <p>Selenium host might be localhost or other where server is running. Used when Config Parameter SELENIUM_RUN_LOCALLY is false.</p>
           </td>
         </tr>
         <tr>
           <td>seleniumport</td>
-          <td><span>SELION_</span>SELENIUM_PORT</td>
+          <td><span>SELION_SELENIUM_PORT</span></td>
           <td colspan="1">4444</td>
           <td colspan="1" class="warning"><span>GLOBAL</span></td>
           <td>
-            <p>Selenium port, any port where Selenium is running. Default is set to 4444</p>
+            <p>Selenium port, any port where Selenium is running. Default is set to 4444. Used when Config Parameter SELENIUM_RUN_LOCALLY is false.</p>
           </td>
         </tr>
         <tr>
@@ -71,16 +71,6 @@
               fails we fail-over to assuming it to be the firefox profile directory. If that also fails we will work with an
               anonymous firefox profile. Please be aware that if your firefox profile  directory is very huge (above ~10 MB)
               then there are chances that it can crash your local JVM.</p>
-          </td>
-        </tr>
-        <tr>
-          <td>localGridConfigFile</td>
-          <td><span>SELION_SELENIUM_LOCAL_GRID_CONFIG_FILE</span></td>
-          <td colspan="1"><span>localnode.json</span></td>
-          <td colspan="1" class="warning"><span>GLOBAL</span></td>
-          <td>
-            <p>The name of the JSON file that can be used, in case for a local run the end user wants to create their own
-              customization for the local grid.</p>
           </td>
         </tr>
         <tr>
@@ -166,7 +156,7 @@
           <td>customCapabilities</td>
           <td><span>SELION_SELENIUM_CUSTOM_CAPABILITIES_PROVIDER</span></td>
           <td colspan="1">&nbsp;</td>
-          <td colspan="1" class="warning"><span>GLOBAL</span></td>
+          <td colspan="1"><span>GLOBAL, LOCAL</span></td>
           <td>
             <p>Use this parameter to provide SeLion with a custom capabilities provider. The value for this parameter
               would be the fully qualified class name which is a sub-class of DefaultCapabilitiesBuilder.
@@ -247,7 +237,7 @@
           <td colspan="1"><span>GLOBAL, LOCAL</span></td>
           <td>
             <p>This parameter represents the fully qualified path of the app that is to be spawned. Must be one of an absolute path on
-            the local filesystem, or a http:// URL, a file on "sauce storage" (sauce-storage:testApp.apk), or a file on "SeLion hub 
+            the local filesystem, or a http:// URL, a file on "sauce storage" (sauce-storage:testApp.apk), or a file on "SeLion hub
             storage" (selion-hub-storage:uuid/testApp.apk).</p>
           </td>
         </tr>
@@ -257,7 +247,7 @@
           <td colspan="1">&nbsp;</td>
           <td colspan="1"><span>GLOBAL, LOCAL</span></td>
           <td>
-            <p>This parameter represents the mobile driver which is used to execute mobile test cases. The valid values are 
+            <p>This parameter represents the mobile driver which is used to execute mobile test cases. The valid values are
               <code>appium, ios-driver, selendroid</code></p>
           </td>
         </tr>
@@ -347,7 +337,7 @@
           <td colspan="1"><span>GLOBAL, LOCAL</span></td>
           <td colspan="1">
             <p>Should javascript capability be enabled on the browser for the AUT. By default javascript will be
-              enabled on<br> * the client browser, but this flag can be used to toggle this setting.</p>
+              enabled on the client browser, but this flag can be used to toggle this setting.</p>
           </td>
         </tr>
         <tr>
@@ -393,6 +383,25 @@
           <td colspan="1" class="warning"><span>GLOBAL</span></td>
           <td colspan="1">
             <p>To print debug info (about Browser/Selenium Version/Client OS) for user.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="1">mobileDevice</td>
+          <td colspan="1"><span>MOBILE_DEVICE</span></td>
+          <td colspan="1">""</td>
+          <td colspan="1" class="warning"><span>GLOBAL</span></td>
+          <td colspan="1">
+            <p>mobile device to be used for running tests. The structure is <b>device:platform version</b>.
+              ex: iPhone 6:9.3, nexus5:6.0. device parameter will be override if <b>mobileDeviceType</b> is defined</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="1">mobileDeviceType</td>
+          <td colspan="1"><span>MOBILE_DEVICE_TYPE</span></td>
+          <td colspan="1">""</td>
+          <td colspan="1" class="warning"><span>GLOBAL</span></td>
+          <td colspan="1">
+            <p>mobile device type to be used for running tests.</p>
           </td>
         </tr>
       </tbody>

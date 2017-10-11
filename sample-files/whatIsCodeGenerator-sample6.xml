@@ -1,13 +1,11 @@
 <plugin>
   <groupId>com.paypal.selion</groupId>
   <artifactId>SeLion-Code-Generator</artifactId>
-  <version>1.0.0</version>
+  <version>1.2.0</version>
   <executions>
     <execution>
-      <phase>generate-sources</phase>
-      <goals>
-        <goal>generate</goal>
-      </goals>
+      .
+      .
     </execution>
   </executions>
   <configuration>
@@ -27,5 +25,10 @@
         com.mycompany.android.CustomUiButton
       </androidCustomElement>
     </androidCustomElements>
+    <mobileCustomElements>
+      <mobileCustomElement>
+        com.mycompany.mobile.CustomButton
+      </mobileCustomElement>
+    </mobileCustomElements>
   </configuration>
 </plugin>
